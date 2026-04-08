@@ -7,9 +7,10 @@ import type { Product, Country, Tank } from '../types';
 
 interface AllocatorTabProps {
   activeTab: 'allocator' | 'fleet' | 'products';
+  isTutorialActive?: boolean;
 }
 
-const AllocatorTab: React.FC<AllocatorTabProps> = ({ activeTab }) => {
+const AllocatorTab: React.FC<AllocatorTabProps> = ({ activeTab, isTutorialActive }) => {
   const isLight = () => document.documentElement.dataset.theme === 'light';
   const [, forceUpdate] = React.useReducer(x => x + 1, 0);
   useEffect(() => {
@@ -46,6 +47,13 @@ const AllocatorTab: React.FC<AllocatorTabProps> = ({ activeTab }) => {
   const [aiAnalysis, setAiAnalysis] = useState("");
   const [loadingAI, setLoadingAI] = useState(false);
   const [showAIAnalysis, setShowAIAnalysis] = useState(true);
+
+  // Force sidebar open during tutorial
+  useEffect(() => {
+    if (isTutorialActive) {
+      setIsSidebarOpen(true);
+    }
+  }, [isTutorialActive]);
 
   // Helper to parse the structured AI response
   const parseAIResponse = (text: string) => {
@@ -218,6 +226,7 @@ The primary risk is ${gwLimit < 30000 ? 'axle weight non-compliance on local acc
             animate={{ width: isSidebarOpen ? 400 : 0 }}
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
             className="relative z-30 flex-shrink-0 no-print"
+            id="tutorial-sidebar"
           >
             {/* Toggle Button - Outside overflow-hidden */}
             <button
@@ -800,7 +809,7 @@ The primary risk is ${gwLimit < 30000 ? 'axle weight non-compliance on local acc
                 }
               `}</style>
 
-                  <div className="shine-effect glass p-6 rounded-3xl border border-white/10 hover:border-sky-500/30 transition-all duration-500 shadow-[0_20px_50px_rgba(0,0,0,0.3)] bg-gradient-to-br from-sky-500/[0.05] to-indigo-500/[0.05]">
+                  <div id="tutorial-ai-advisor" className="shine-effect glass p-6 rounded-3xl border border-white/10 hover:border-sky-500/30 transition-all duration-500 shadow-[0_20px_50px_rgba(0,0,0,0.3)] bg-gradient-to-br from-sky-500/[0.05] to-indigo-500/[0.05]">
                     <div className="flex justify-between items-center mb-6">
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-2xl bg-sky-500/20 flex items-center justify-center text-sky-400 border border-sky-500/30 shadow-[0_0_20px_rgba(14,165,233,0.3)]">
@@ -908,7 +917,7 @@ The primary risk is ${gwLimit < 30000 ? 'axle weight non-compliance on local acc
                       <h3 className="text-xs font-mono tracking-[0.4em] text-sky-400 uppercase whitespace-nowrap drop-shadow-sm">Core Yield Optimization</h3>
                       <div className="h-[1px] w-full bg-gradient-to-r from-sky-500/30 via-sky-500/10 to-transparent"></div>
                     </div>
-                    <motion.div layout className={`grid gap-8 ${isSidebarOpen ? 'grid-cols-1 xl:grid-cols-2' : 'grid-cols-1 lg:grid-cols-2 xl:grid-cols-3'}`}>
+                    <motion.div id="tutorial-results" layout className={`grid gap-8 ${isSidebarOpen ? 'grid-cols-1 xl:grid-cols-2' : 'grid-cols-1 lg:grid-cols-2 xl:grid-cols-3'}`}>
                       {viable.map((r: any) => (
                         <ResultCard 
                           key={r.tankId} 

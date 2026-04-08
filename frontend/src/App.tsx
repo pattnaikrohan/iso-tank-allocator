@@ -4,6 +4,7 @@ import LoginPage from './components/LoginPage';
 import Header from './components/Header';
 import AllocatorTab from './components/AllocatorTab';
 import FleetTab from './components/FleetTab';
+import TutorialPortal from './components/TutorialPortal';
 import { useAllocation } from './hooks/useAllocation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
@@ -13,6 +14,9 @@ export type TabType = 'allocator' | 'fleet' | 'products';
 function App() {
   const { inProgress } = useMsal();
   const [activeTab, setActiveTab] = useState<TabType>('allocator');
+  const [showTutorial, setShowTutorial] = useState(() => {
+    return !localStorage.getItem('tutorial_completed');
+  });
   const { fleet } = useAllocation();
 
   // Robust detection for MSAL popup windows to avoid recursive React rendering
@@ -51,10 +55,11 @@ function App() {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8 }}
         >
-          <Header />
+          <Header onStartTutorial={() => setShowTutorial(true)} />
 
           {/* Navigation Tabs */}
           <div
+            id="tutorial-tabs"
             className="backdrop-blur-md border-b border-white/[0.06] px-8 flex relative z-40"
             style={{ backgroundColor: '#030a14' }}
           >
@@ -108,7 +113,7 @@ function App() {
                   exit={{ opacity: 0, y: -20 }}
                   transition={{ duration: 0.5 }}
                 >
-                  <AllocatorTab activeTab="allocator" />
+                  <AllocatorTab activeTab="allocator" isTutorialActive={showTutorial} />
                 </motion.div>
               )}
 
@@ -132,7 +137,7 @@ function App() {
                   exit={{ opacity: 0, y: -20 }}
                   transition={{ duration: 0.5 }}
                 >
-                  <AllocatorTab activeTab="products" />
+                  <AllocatorTab activeTab="products" isTutorialActive={showTutorial} />
                 </motion.div>
               )}
             </AnimatePresence>
@@ -152,6 +157,19 @@ function App() {
               Precision Logistics Engine · V2.0.1
             </div>
           </footer>
+
+          <AnimatePresence>
+            {showTutorial && (
+              <TutorialPortal 
+                activeTab={activeTab}
+                setActiveTab={setActiveTab}
+                onClose={() => {
+                  setShowTutorial(false);
+                  localStorage.setItem('tutorial_completed', 'true');
+                }} 
+              />
+            )}
+          </AnimatePresence>
         </motion.div>
       </AuthenticatedTemplate>
     </div>
