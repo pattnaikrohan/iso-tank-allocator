@@ -233,15 +233,16 @@ The primary risk is ${gwLimit < 30000 ? 'axle weight non-compliance on local acc
             <motion.div
               animate={{ opacity: isSidebarOpen ? 1 : 0.01, scale: isSidebarOpen ? 1 : 0.98 }}
               transition={{ duration: 0.4, ease: "easeInOut" }}
-              className="w-full h-full overflow-hidden"
+              className="w-full min-h-screen"
               style={{
                 backgroundColor: 'var(--card-bg)',
                 boxShadow: '4px 0 30px -5px rgba(14, 165, 233, 0.15)',
                 minWidth: '400px',
-                height: '100vh'
+                minHeight: '100vh',
+                height: 'auto'
               }}
             >
-              <div className="w-[400px] p-8 space-y-8 overflow-y-auto h-full">
+              <div className="w-[400px] p-8 space-y-8 h-full">
                 {/* Classification */}
                 <div>
                   <label className="block text-sm font-mono tracking-[0.2em] text-accent uppercase mb-3 font-semibold drop-shadow-sm">Allocation Type</label>
@@ -349,9 +350,9 @@ The primary risk is ${gwLimit < 30000 ? 'axle weight non-compliance on local acc
                       className="mt-4 bg-red-500/[0.03] border border-red-500/20 rounded-xl p-4 overflow-hidden"
                     >
                       <div className="text-xs font-mono text-red-500 tracking-[0.2em] mb-2 uppercase">⚠ DG Requirements</div>
-                      <div className="text-xs font-mono text-red-300/80">
-                        {selectedProduct.un} <span className="mx-2 opacity-30">|</span>
-                        Class {selectedProduct.cls} <span className="mx-2 opacity-30">|</span>
+                      <div className={`text-xs font-mono ${isLight() ? 'text-red-700/90' : 'text-red-300/80'}`}>
+                        {selectedProduct.un} <span className={`mx-2 ${isLight() ? 'opacity-60' : 'opacity-30'}`}>|</span>
+                        Class {selectedProduct.cls} <span className={`mx-2 ${isLight() ? 'opacity-60' : 'opacity-30'}`}>|</span>
                         PG {selectedProduct.pg}
                       </div>
                     </motion.div>
@@ -623,7 +624,9 @@ The primary risk is ${gwLimit < 30000 ? 'axle weight non-compliance on local acc
                       />
                     </button>
                   </div>
-                  <p className={`text-[11px] font-mono leading-relaxed italic ${isBaffled ? 'text-emerald-300/60' : 'text-orange-300/60'}`}>
+                  <p className={`text-[11px] font-mono leading-relaxed italic ${isBaffled 
+                    ? (isLight() ? 'text-emerald-700' : 'text-emerald-300/60') 
+                    : (isLight() ? 'text-orange-700' : 'text-orange-300/60')}`}>
                     {isBaffled
                       ? '✓ Bypass engaged: Load limits based strictly on GVM compliance.'
                       : '⚠ Active safety: Standard 80% min and DG/Non-DG max fill enforced.'}
@@ -761,7 +764,7 @@ The primary risk is ${gwLimit < 30000 ? 'axle weight non-compliance on local acc
                     {[
                       { label: 'Viable Tanks', value: viable.length, color: 'text-emerald-400', glow: 'shadow-glow-emerald' },
                       { label: 'Density (SG)', value: effectiveSG.toFixed(3), color: 'text-sky-400', glow: 'shadow-glow-sky' },
-                      { label: 'Boundary Range', value: `${effectiveMinFill}% - ${effectiveMaxFill}%`, color: 'text-slate-300', glow: 'shadow-glass' },
+                      { label: 'Boundary Range', value: `${effectiveMinFill}% - ${effectiveMaxFill}%`, color: isLight() ? 'text-slate-600' : 'text-slate-300', glow: 'shadow-glass' },
                       { label: 'Non-Viable', value: nonViable.length, color: 'text-red-400', glow: 'shadow-glass' },
                       { label: 'GVM Limit', value: `${(gwLimit / 1000).toFixed(1)} MT`, color: gwLimit < 36000 ? 'text-orange-400' : 'text-sky-400', glow: 'shadow-glass' },
                     ].map((m, i) => (
@@ -805,7 +808,7 @@ The primary risk is ${gwLimit < 30000 ? 'axle weight non-compliance on local acc
                         </div>
                         <div>
                           <h3 className="text-sm font-mono tracking-[0.3em] text-sky-400 uppercase font-bold">AI Operations Advisor</h3>
-                          <p className="text-[11px] text-slate-400 font-mono uppercase tracking-widest">Global Vector Intelligence</p>
+                          <p className={`text-[11px] font-mono uppercase tracking-widest ${isLight() ? 'text-slate-600' : 'text-slate-400'}`}>Global Vector Intelligence</p>
                         </div>
                       </div>
 
@@ -947,7 +950,7 @@ The primary risk is ${gwLimit < 30000 ? 'axle weight non-compliance on local acc
         >
           <div className="max-w-7xl mx-auto">
             <h2 className="font-bebas text-4xl text-white mb-2 tracking-wider">Fleet Database</h2>
-            <p className="text-xs font-mono tracking-[0.2em] text-slate-500 uppercase mb-8">Registered Transport Assets</p>
+            <p className={`text-xs font-mono tracking-[0.2em] uppercase mb-8 ${isLight() ? 'text-slate-600' : 'text-slate-500'}`}>Registered Transport Assets</p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {fleet.map((t: Tank) => (

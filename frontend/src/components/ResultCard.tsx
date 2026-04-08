@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import { useTheme } from '../context/ThemeContext';
 import type { AllocationResult } from '../types';
 import Tooltip from './Tooltip';
 import LoadManifestModal from './LoadManifestModal';
@@ -11,6 +12,8 @@ interface ResultCardProps {
 }
 
 const ResultCard: React.FC<ResultCardProps> = ({ result, isBest, destination }) => {
+  const { theme } = useTheme();
+  const isLight = theme === 'light';
   const [isModalOpen, setIsModalOpen] = useState(false);
   
   const {
@@ -135,9 +138,9 @@ const ResultCard: React.FC<ResultCardProps> = ({ result, isBest, destination }) 
                   <span className="text-sm font-mono text-muted/60 mt-1">{minCargoKg.toLocaleString()} kg</span>
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-[11px] font-mono text-slate-500 uppercase tracking-[0.2em] mb-1">Required Volume</span>
-                  <span className="font-bebas text-2xl text-slate-400 leading-none tracking-wide">
-                    {(minVol / 1000).toFixed(3)} <span className="text-xs uppercase font-mono text-slate-600 ml-1">KL</span>
+                  <span className={`text-[11px] font-mono uppercase tracking-[0.2em] mb-1 ${isLight ? 'text-slate-600' : 'text-slate-500'}`}>Required Volume</span>
+                  <span className={`font-bebas text-2xl leading-none tracking-wide ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>
+                    {(minVol / 1000).toFixed(3)} <span className={`text-xs uppercase font-mono ml-1 ${isLight ? 'text-slate-600' : 'text-slate-600'}`}>KL</span>
                   </span>
                 </div>
               </div>
@@ -164,9 +167,9 @@ const ResultCard: React.FC<ResultCardProps> = ({ result, isBest, destination }) 
                   <span className="text-sm font-mono text-emerald-500/50 mt-1">{maxCargoKg.toLocaleString()} kg</span>
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-[11px] font-mono text-slate-500 uppercase tracking-[0.2em] mb-1">Theoretical Volume</span>
-                  <span className="font-bebas text-2xl text-slate-300 leading-none tracking-wide">
-                    {(maxVol / 1000).toFixed(3)} <span className="text-xs uppercase font-mono text-slate-500 ml-1">KL</span>
+                  <span className={`text-[11px] font-mono uppercase tracking-[0.2em] mb-1 ${isLight ? 'text-slate-600' : 'text-slate-500'}`}>Theoretical Volume</span>
+                  <span className={`font-bebas text-2xl leading-none tracking-wide ${isLight ? 'text-slate-500' : 'text-slate-300'}`}>
+                    {(maxVol / 1000).toFixed(3)} <span className={`text-xs uppercase font-mono ml-1 ${isLight ? 'text-slate-600' : 'text-slate-500'}`}>KL</span>
                   </span>
                 </div>
               </div>
@@ -178,9 +181,9 @@ const ResultCard: React.FC<ResultCardProps> = ({ result, isBest, destination }) 
             
             {/* Fill Range Spectrum Bar */}
             <div>
-              <div className="font-mono text-[11px] text-slate-500 mb-2 flex justify-between tracking-[0.2em] uppercase">
+              <div className={`font-mono text-[11px] mb-2 flex justify-between tracking-[0.2em] uppercase ${isLight ? 'text-slate-600' : 'text-slate-500'}`}>
                 <span>Fill Boundary Spectrum</span>
-                <span><span className="text-sky-400 font-bold">{minFillPct}%</span> MIN → <span className="text-emerald-400 font-bold">{maxFillPct}%</span> MAX <span className="text-slate-600 mx-1">|</span> Span: <span className="text-slate-300">{(maxFillPct - minFillPct).toFixed(1)}%</span></span>
+                <span><span className="text-sky-400 font-bold">{minFillPct}%</span> MIN → <span className="text-emerald-400 font-bold">{maxFillPct}%</span> MAX <span className="text-slate-600 mx-1">|</span> Span: <span className={isLight ? 'text-slate-500' : 'text-slate-300'}>{(maxFillPct - minFillPct).toFixed(1)}%</span></span>
               </div>
               <div className="relative h-2 bg-navy-700/20 rounded-full mt-2 mb-1.5 overflow-visible">
                 <div 
@@ -196,7 +199,7 @@ const ResultCard: React.FC<ResultCardProps> = ({ result, isBest, destination }) 
                   style={{ left: `${Math.min(maxFillPct, 99.5)}%`, transform: "translateX(-50%)" }}
                 />
               </div>
-              <div className="flex justify-between font-mono text-[11px] text-slate-600 mb-4">
+               <div className={`flex justify-between font-mono text-[11px] mb-4 ${isLight ? 'text-slate-500' : 'text-slate-600'}`}>
                 <span>0%</span><span>50%</span><span>100%</span>
               </div>
             </div>
@@ -221,7 +224,7 @@ const ResultCard: React.FC<ResultCardProps> = ({ result, isBest, destination }) 
                   </div>
                   
                   <div className="flex justify-between items-center mt-3 pt-3 border-t border-white/[0.05]">
-                    <span className="text-[11px] font-mono text-slate-500 uppercase tracking-[0.2em]">Limiting Factor</span>
+                    <span className={`text-[11px] font-mono uppercase tracking-[0.2em] ${isLight ? 'text-slate-600' : 'text-slate-500'}`}>Limiting Factor</span>
                     <Tooltip content={limitingFactor === 'Weight Restricted' ? 'Yield is capped by regional road weight limit' : 'Yield is capped by safe volume boundary'}>
                       <span className="text-[11px] font-mono text-sky-400 uppercase tracking-[0.2em] bg-sky-500/10 px-2 py-0.5 rounded border border-sky-500/20 font-semibold cursor-help">{limitingFactor}</span>
                     </Tooltip>
@@ -244,7 +247,7 @@ const ResultCard: React.FC<ResultCardProps> = ({ result, isBest, destination }) 
               ))}
             </div>
 
-            <div className="mt-4 pt-4 border-t border-white/5 text-[11px] font-mono text-slate-500 tracking-wider">
+            <div className={`mt-4 pt-4 border-t border-white/5 text-[11px] font-mono tracking-wider ${isLight ? 'text-slate-600' : 'text-slate-500'}`}>
               {tankNotes}
             </div>
           </div>

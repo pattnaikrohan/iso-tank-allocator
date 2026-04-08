@@ -1,6 +1,7 @@
 import React from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useTheme } from '../context/ThemeContext';
 import type { AllocationResult } from '../types';
 
 interface LoadManifestModalProps {
@@ -11,6 +12,8 @@ interface LoadManifestModalProps {
 }
 
 const LoadManifestModal: React.FC<LoadManifestModalProps> = ({ isOpen, onClose, resultData, destination }) => {
+  const { theme } = useTheme();
+  const isLight = theme === 'light';
   const hasData = !!resultData;
   const renderData = resultData || {} as AllocationResult;
 
@@ -100,20 +103,20 @@ const LoadManifestModal: React.FC<LoadManifestModalProps> = ({ isOpen, onClose, 
                   <h3 className="text-xs font-mono text-sky-400 uppercase tracking-widest border-b border-sky-500/10 pb-2 drop-shadow-sm">Load Variables</h3>
                   
                   <div className="flex justify-between items-end">
-                    <span className="text-xs font-mono text-slate-500 uppercase tracking-wider">Tare Weight</span>
-                    <span className="font-mono text-sm text-slate-300">{tareKg.toLocaleString()} kg</span>
+                    <span className={`text-xs font-mono uppercase tracking-wider ${isLight ? 'text-slate-600' : 'text-slate-500'}`}>Tare Weight</span>
+                    <span className={`font-mono text-sm ${isLight ? 'text-slate-500' : 'text-slate-300'}`}>{tareKg.toLocaleString()} kg</span>
                   </div>
                   <div className="flex justify-between items-end">
-                    <span className="text-xs font-mono text-slate-500 uppercase tracking-wider">Gross Limit ({destination})</span>
-                    <span className="font-mono text-sm text-slate-300">{effectiveLimit.toLocaleString()} kg</span>
+                    <span className={`text-xs font-mono uppercase tracking-wider ${isLight ? 'text-slate-600' : 'text-slate-500'}`}>Gross Limit ({destination})</span>
+                    <span className={`font-mono text-sm ${isLight ? 'text-slate-500' : 'text-slate-300'}`}>{effectiveLimit.toLocaleString()} kg</span>
                   </div>
                   <div className="flex justify-between items-end">
-                    <span className="text-xs font-mono text-slate-500 uppercase tracking-wider">Tank Capacity</span>
-                    <span className="font-mono text-sm text-slate-300">{capacityL.toLocaleString()} L</span>
+                    <span className={`text-xs font-mono uppercase tracking-wider ${isLight ? 'text-slate-600' : 'text-slate-500'}`}>Tank Capacity</span>
+                    <span className={`font-mono text-sm ${isLight ? 'text-slate-500' : 'text-slate-300'}`}>{capacityL.toLocaleString()} L</span>
                   </div>
                   <div className="flex justify-between items-end">
-                    <span className="text-xs font-mono text-slate-500 uppercase tracking-wider">Max Fill Boundary</span>
-                    <span className="font-mono text-sm text-slate-300">{maxFillPct}%</span>
+                    <span className={`text-xs font-mono uppercase tracking-wider ${isLight ? 'text-slate-600' : 'text-slate-500'}`}>Max Fill Boundary</span>
+                    <span className={`font-mono text-sm ${isLight ? 'text-slate-500' : 'text-slate-300'}`}>{maxFillPct}%</span>
                   </div>
                 </div>
 
@@ -140,7 +143,7 @@ const LoadManifestModal: React.FC<LoadManifestModalProps> = ({ isOpen, onClose, 
                 className="rounded-xl p-5 border shadow-inner"
                 style={{ backgroundColor: 'var(--card-inner-bg)', borderColor: 'var(--card-border)' }}
               >
-                 <h3 className="text-[11px] font-mono text-slate-500 uppercase tracking-[0.2em] mb-3">Constraint Resolution</h3>
+                 <h3 className={`text-[11px] font-mono uppercase tracking-[0.2em] mb-3 ${isLight ? 'text-slate-600' : 'text-slate-500'}`}>Constraint Resolution</h3>
                  <div className="flex items-center justify-between">
                    <div className="flex items-center gap-3">
                      <div className="w-2 h-2 rounded-full bg-sky-500 shadow-[0_0_8px_rgba(14,165,233,0.8)] animate-pulse"></div>

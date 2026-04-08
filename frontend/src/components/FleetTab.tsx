@@ -23,10 +23,10 @@ const FleetTab: React.FC<FleetTabProps> = ({ fleet }) => {
       <div className="max-w-7xl mx-auto">
         <div className="mb-10">
           <h2 className="font-bebas text-5xl text-main mb-2 tracking-widest drop-shadow-md">T11 Fleet Intelligence</h2>
-          <div className="flex items-center gap-4 text-sm font-mono tracking-[0.2em] text-muted uppercase">
-            <span>Standardized Food & Industrial Assets</span>
+          <div className="flex items-center gap-4 text-sm font-mono tracking-[0.2em] uppercase">
+            <span className={theme === 'light' ? 'text-slate-600' : 'text-muted'}>Standardized Food & Industrial Assets</span>
             <span className="opacity-30">|</span>
-            <span className="text-sky-400/80">Global Port & Road Compliance Ready</span>
+            <span className={theme === 'light' ? 'text-sky-600' : 'text-sky-400/80'}>Global Port & Road Compliance Ready</span>
           </div>
         </div>
 
@@ -66,12 +66,12 @@ const FleetTab: React.FC<FleetTabProps> = ({ fleet }) => {
                     <span className="text-base font-semibold text-main">{tank.tare.toLocaleString()} kg</span>
                   </div>
                   <div className="flex justify-between items-center py-2" style={{ borderBottom: '1px solid var(--card-border)', opacity: 0.8 }}>
-                    <span className="text-sm font-mono text-orange-400/80 uppercase tracking-widest">⚖ NA Gross limit</span>
-                    <span className="text-base font-semibold text-orange-300">{NA_LIMIT.toLocaleString()} kg</span>
+                    <span className={`text-sm font-mono uppercase tracking-widest ${theme === 'light' ? 'text-orange-700' : 'text-orange-400/80'}`}>⚖ NA Gross limit</span>
+                    <span className={`text-base font-semibold ${theme === 'light' ? 'text-orange-600' : 'text-orange-300'}`}>{NA_LIMIT.toLocaleString()} kg</span>
                   </div>
                   <div className="flex justify-between items-center py-2" style={{ borderBottom: '1px solid var(--card-border)', opacity: 0.8 }}>
-                    <span className="text-sm font-mono text-sky-400/80 uppercase tracking-widest">🌍 WW Gross limit</span>
-                    <span className="text-base font-semibold text-sky-300">{WW_GVW_KG.toLocaleString()} kg</span>
+                    <span className={`text-sm font-mono uppercase tracking-widest ${theme === 'light' ? 'text-sky-700' : 'text-sky-400/80'}`}>🌍 WW Gross limit</span>
+                    <span className={`text-base font-semibold ${theme === 'light' ? 'text-sky-600' : 'text-sky-300'}`}>{WW_GVW_KG.toLocaleString()} kg</span>
                   </div>
                 </div>
 
