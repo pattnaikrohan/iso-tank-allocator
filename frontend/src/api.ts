@@ -1,7 +1,7 @@
 import axios from 'axios';
 import type { Product, Country, Tank, AllocationRequest, AllocationResult } from './types';
 
-const API_BASE_URL = 'http://localhost:8000/api';
+const API_BASE_URL = "https://ISO-TANK-ALLOCATOR.azurewebsites.net";
 
 const api = axios.create({
   baseURL: API_BASE_URL,
